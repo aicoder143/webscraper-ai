@@ -17,11 +17,243 @@
 body.light {
   --bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf2;--bg4:#dde3ea;
   --border:#c8d3de;--border2:#a0b0c0;
-  --accent:#0077aa;--accent2:#007744;--accent3:#cc4400;
-  --text:#1a2535;--text2:#445566;--text3:#7a8fa0;
-  --danger:#cc2233;--warn:#996600;
+  --accent:#0066aa;--accent2:#007744;--accent3:#cc4400;
+  --text:#1a2535;--text2:#334455;--text3:#6a7f90;
+  --danger:#bb1122;--warn:#885500;
 }
-body.light::before{opacity:0.08;}
+body.light::before{opacity:0.06;}
+
+/* Light mode — header bar */
+body.light header{
+  background:rgba(240,244,248,0.98);
+  border-bottom:1px solid #c0ccd8;
+}
+
+/* Light mode — all ghost buttons visible */
+body.light .btn-ghost{
+  background:#ffffff;
+  color:#334455;
+  border:1px solid #8899aa;
+}
+body.light .btn-ghost:hover{
+  background:#e0ecf8;
+  border-color:#0066aa;
+  color:#0066aa;
+}
+
+/* Light mode — success button */
+body.light .btn-success{
+  background:#f0fff8;
+  color:#005533;
+  border:1px solid #007744;
+}
+body.light .btn-success:hover{
+  background:#c8f0e0;
+}
+
+/* Light mode — warn button (PDF) */
+body.light .btn-warn{
+  background:#fff4ee;
+  color:#883300;
+  border:1px solid #cc4400;
+}
+body.light .btn-warn:hover{
+  background:#ffe0cc;
+}
+
+/* Light mode — danger button */
+body.light .btn-danger{
+  background:#fff0f0;
+  color:#991122;
+  border:1px solid #cc2233;
+}
+body.light .btn-danger:hover{
+  background:#ffd0d4;
+  border-color:#bb1122;
+}
+
+/* Light mode — primary button */
+body.light .btn-primary{
+  background:#0066aa;
+  color:#ffffff;
+  border:none;
+}
+body.light .btn-primary:hover{
+  background:#0055aa;
+  box-shadow:0 0 12px rgba(0,102,170,.3);
+}
+
+/* Light mode — main header bar */
+body.light .main-hdr{
+  background:rgba(232,237,242,0.95);
+  border-bottom:1px solid #c0ccd8;
+}
+
+/* Light mode — sidebar */
+body.light .sidebar{
+  background:#f8fafc;
+  border-right:1px solid #c0ccd8;
+}
+
+/* Light mode — job cards */
+body.light .job-card{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+  color:#1a2535;
+}
+body.light .job-card:hover{
+  background:#e8f0f8;
+  border-color:#8899aa;
+}
+body.light .job-card.active{
+  background:#e0ecf8;
+  border-color:#0066aa;
+}
+
+/* Light mode — timing pills */
+body.light .tp-time{
+  background:rgba(0,100,170,.1);
+  color:#004488;
+  border-color:rgba(0,100,170,.3);
+}
+body.light .tp-depth{
+  background:rgba(180,60,0,.08);
+  color:#883300;
+  border-color:rgba(180,60,0,.25);
+}
+body.light .tp-speed{
+  background:rgba(0,100,60,.08);
+  color:#004422;
+  border-color:rgba(0,100,60,.25);
+}
+
+/* Light mode — tabs */
+body.light .tab{color:#556677;}
+body.light .tab:hover{color:#334455;}
+body.light .tab.on{color:#0066aa;border-bottom-color:#0066aa;}
+
+/* Light mode — overview cards */
+body.light .ov-card{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+}
+body.light .ov-val.big{color:#0055aa;}
+
+/* Light mode — analysis cards */
+body.light .an-card{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+}
+body.light .an-val.hl{color:#0055aa;}
+
+/* Light mode — search input */
+body.light .search-inp{
+  background:#ffffff;
+  border:1px solid #a0b0c0;
+  color:#1a2535;
+}
+body.light .search-inp:focus{
+  border-color:#0066aa;
+}
+body.light .url-inp{
+  background:#ffffff;
+  border:1px solid #a0b0c0;
+  color:#1a2535;
+}
+body.light .url-inp:focus{
+  border-color:#0066aa;
+}
+
+/* Light mode — terminal */
+body.light .terminal{
+  background:#1a2535;
+  border:1px solid #8899aa;
+}
+
+/* Light mode — stats boxes */
+body.light .stat{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+}
+body.light .stat-n{color:#0055aa;}
+
+/* Light mode — depth info cards */
+body.light .di{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+}
+
+/* Light mode — timing panel */
+body.light .timing-panel{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+}
+
+/* Light mode — pages box */
+body.light .pages-box{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+}
+body.light .pg-w{
+  background:#f0f4f8;
+  border:1px solid #c8d3de;
+  color:#334455;
+}
+
+/* Light mode — search results */
+body.light .search-results{
+  background:#ffffff;
+  border:1px solid #c8d3de;
+}
+body.light .sr-item:hover{background:#f0f4f8;}
+body.light .sr-snippet mark{
+  background:rgba(0,100,170,.15);
+  color:#004488;
+}
+
+/* Light mode — tags */
+body.light .tag{
+  background:#f0f4f8;
+  border:1px solid #c8d3de;
+  color:#334455;
+}
+
+/* Light mode — facts list */
+body.light .facts li{
+  color:#334455;
+  border-bottom-color:rgba(0,0,0,.08);
+}
+body.light .facts li::before{color:#0066aa;}
+
+/* Light mode — depth badge */
+body.light .depth-badge{
+  border-color:rgba(0,100,170,.3) !important;
+}
+
+/* Light mode — slider track */
+body.light input[type=range]{background:#dde3ea;}
+
+/* Light mode — progress bars */
+body.light .prog{background:#dde3ea;}
+
+/* Light mode — live timer */
+body.light .live-timer{color:#885500;}
+body.light .timer-dot{background:#885500;}
+
+/* Light mode — theme toggle */
+body.light .theme-toggle{
+  background:#ffffff;
+  border:1px solid #8899aa;
+  color:#334455;
+}
+body.light .theme-toggle:hover{
+  border-color:#0066aa;
+  color:#0066aa;
+}
+
+/* Light mode — s-block borders */
+body.light .s-block{border-bottom-color:#c8d3de;}
+body.light .s-label{color:#556677;}
 /* Theme toggle button */
 .theme-toggle{
   display:flex;align-items:center;gap:6px;
