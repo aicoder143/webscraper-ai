@@ -84,7 +84,7 @@ body::before{content:'';position:fixed;inset:0;
 
 /* ── Header ── */
 header{
-  position:relative;z-index:200;height:54px;padding:0 20px;
+  position:relative;z-index:1000;height:54px;padding:0 20px;
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
   background:var(--bg2);
@@ -104,22 +104,34 @@ header{
 
 /* ── Settings gear button ── */
 .settings-btn{
-  width:34px;height:34px;border-radius:50%;
+  width:36px;height:36px;border-radius:50%;
   background:var(--bg3);border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:16px;color:var(--text2);
-  transition:all .2s;
+  cursor:pointer;font-size:18px;color:var(--text2);
+  transition:all .3s;
+  position:relative;z-index:1001;
+  pointer-events:all !important;
+  -webkit-appearance:none;
+  appearance:none;
+  outline:none;
 }
 .settings-btn:hover{
   border-color:var(--accent);color:var(--accent);
-  transform:rotate(45deg);
+  background:var(--bg4);
+  transform:rotate(60deg);
+  box-shadow:0 0 12px rgba(88,166,255,.3);
 }
 
 /* ── Settings panel ── */
 .settings-overlay{
+  display:none;
   position:fixed;inset:0;background:rgba(0,0,0,.5);
-  z-index:500;display:none;align-items:flex-start;
+  z-index:999;display:none;align-items:flex-start;
   justify-content:flex-end;padding-top:60px;padding-right:20px;
+  pointer-events:none;
+}
+.settings-overlay.open{
+  pointer-events:all;
 }
 .settings-overlay.open{display:flex;}
 .settings-panel{
@@ -582,7 +594,7 @@ input[type=range]::-webkit-slider-thumb{
     <div class="logo-name">Web<span>Scraper</span> AI</div>
   </div>
   <div class="hdr-right">
-    <button class="settings-btn" onclick="openSettings()" title="Appearance Settings" type="button">&#9881;</button>
+    <button class="settings-btn" id="settings-gear-btn" onclick="openSettings()" title="Appearance Settings" type="button" style="cursor:pointer;pointer-events:all;position:relative;z-index:1001;">&#9881;</button>
     <div class="sys"><div class="sys-dot"></div>All systems operational</div>
   </div>
 </header>
@@ -1131,8 +1143,20 @@ async function deleteJob(id){
 }
 
 /* ── Settings panel ── */
-function openSettings(){document.getElementById("settings-overlay").classList.add("open");}
-function closeSettings(){document.getElementById("settings-overlay").classList.remove("open");}
+function openSettings(){
+  const overlay = document.getElementById("settings-overlay");
+  if (overlay) {
+    overlay.classList.add("open");
+    overlay.style.display = "flex";
+  }
+}
+function closeSettings(){
+  const overlay = document.getElementById("settings-overlay");
+  if (overlay) {
+    overlay.classList.remove("open");
+    overlay.style.display = "none";
+  }
+}
 
 function setTheme(name,el){
   document.body.className=document.body.className.replace(/theme-\w+/,"theme-"+name);
@@ -1184,5 +1208,200 @@ async function initDashboard(){
 initDashboard();
 setInterval(loadJobs,5000);
 </script>
+
+<style>
+/* Floating gear button — always on top */
+#floating-gear {
+  position: fixed;
+  top: 10px;
+  right: 80px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text2);
+  z-index: 9999;
+  transition: all .3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  pointer-events: all !important;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+#floating-gear:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: rotate(60deg);
+  box-shadow: 0 0 16px rgba(88,166,255,.4);
+}
+#settings-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 99999;
+  display: none;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 56px;
+  padding-right: 16px;
+}
+#settings-modal.open {
+  display: flex;
+}
+#settings-modal-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 320px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,.5);
+  animation: slideIn .2s ease;
+}
+</style>
+
+<!-- Floating gear button (always clickable) -->
+<button id="floating-gear" onclick="openSettingsModal()" title="Appearance Settings" type="button">&#9881;</button>
+
+<!-- Settings modal (completely independent of page layout) -->
+<div id="settings-modal" onclick="if(event.target===this)closeSettingsModal()">
+  <div id="settings-modal-panel">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:15px;font-weight:600;color:var(--text);">&#9881; Appearance</div>
+      <button onclick="closeSettingsModal()" type="button" style="width:28px;height:28px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);cursor:pointer;font-size:14px;color:var(--text2);display:flex;align-items:center;justify-content:center;">&#x2715;</button>
+    </div>
+
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Color Theme</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+        <div onclick="setTheme2('dark',this)" data-t="dark" title="Dark" style="height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;background:linear-gradient(135deg,#0d1117 50%,#58a6ff 50%);transition:all .15s;" class="tsw2"></div>
+        <div onclick="setTheme2('light',this)" data-t="light" title="Light" style="height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;background:linear-gradient(135deg,#f6f8fa 50%,#0969da 50%);transition:all .15s;" class="tsw2"></div>
+        <div onclick="setTheme2('ocean',this)" data-t="ocean" title="Ocean" style="height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;background:linear-gradient(135deg,#0a192f 50%,#64ffda 50%);transition:all .15s;" class="tsw2"></div>
+        <div onclick="setTheme2('forest',this)" data-t="forest" title="Forest" style="height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;background:linear-gradient(135deg,#0d1f0d 50%,#69db7c 50%);transition:all .15s;" class="tsw2"></div>
+        <div onclick="setTheme2('purple',this)" data-t="purple" title="Purple" style="height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;background:linear-gradient(135deg,#12001a 50%,#cc88ff 50%);transition:all .15s;" class="tsw2"></div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:6px;">
+        <span style="font-size:9px;color:var(--text3);text-align:center;flex:1;">Dark</span>
+        <span style="font-size:9px;color:var(--text3);text-align:center;flex:1;">Light</span>
+        <span style="font-size:9px;color:var(--text3);text-align:center;flex:1;">Ocean</span>
+        <span style="font-size:9px;color:var(--text3);text-align:center;flex:1;">Forest</span>
+        <span style="font-size:9px;color:var(--text3);text-align:center;flex:1;">Purple</span>
+      </div>
+    </div>
+
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Font Style</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div onclick="setFont2('inter',this)" data-f="inter" class="fo2" style="padding:10px 14px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-family:'Inter',sans-serif;">
+          <div style="font-size:13px;font-weight:500;color:var(--text);font-family:'Inter',sans-serif;">Inter</div>
+          <div style="font-size:11px;color:var(--text2);font-family:'Inter',sans-serif;">Clean modern — The quick brown fox 123</div>
+        </div>
+        <div onclick="setFont2('ibm',this)" data-f="ibm" class="fo2" style="padding:10px 14px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-family:'IBM Plex Sans',sans-serif;">
+          <div style="font-size:13px;font-weight:500;color:var(--text);font-family:'IBM Plex Sans',sans-serif;">IBM Plex Sans</div>
+          <div style="font-size:11px;color:var(--text2);font-family:'IBM Plex Sans',sans-serif;">Professional — The quick brown fox 123</div>
+        </div>
+        <div onclick="setFont2('dm',this)" data-f="dm" class="fo2" style="padding:10px 14px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-family:'DM Sans',sans-serif;">
+          <div style="font-size:13px;font-weight:500;color:var(--text);font-family:'DM Sans',sans-serif;">DM Sans</div>
+          <div style="font-size:11px;color:var(--text2);font-family:'DM Sans',sans-serif;">Friendly rounded — The quick brown fox 123</div>
+        </div>
+        <div onclick="setFont2('nunito',this)" data-f="nunito" class="fo2" style="padding:10px 14px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-family:'Nunito',sans-serif;">
+          <div style="font-size:13px;font-weight:500;color:var(--text);font-family:'Nunito',sans-serif;">Nunito</div>
+          <div style="font-size:11px;color:var(--text2);font-family:'Nunito',sans-serif;">Soft legible — The quick brown fox 123</div>
+        </div>
+        <div onclick="setFont2('mono',this)" data-f="mono" class="fo2" style="padding:10px 14px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-family:'JetBrains Mono',monospace;">
+          <div style="font-size:13px;font-weight:500;color:var(--text);font-family:'JetBrains Mono',monospace;">JetBrains Mono</div>
+          <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">Terminal — The quick brown fox 123</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Font Size</div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="setSize2('sm',this)" data-s="sm" class="sz2" type="button" style="flex:1;padding:8px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-size:11px;font-weight:500;color:var(--text);">Small</button>
+        <button onclick="setSize2('md',this)" data-s="md" class="sz2" type="button" style="flex:1;padding:8px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-size:13px;font-weight:500;color:var(--text);">Medium</button>
+        <button onclick="setSize2('lg',this)" data-s="lg" class="sz2" type="button" style="flex:1;padding:8px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-size:15px;font-weight:500;color:var(--text);">Large</button>
+        <button onclick="setSize2('xl',this)" data-s="xl" class="sz2" type="button" style="flex:1;padding:8px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);font-size:17px;font-weight:500;color:var(--text);">XL</button>
+      </div>
+    </div>
+
+    <div style="padding:16px 20px;">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Live Preview</div>
+      <div id="preview2" style="padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;line-height:1.6;">
+        WebScraper AI — 50 pages scraped in 8m 30s<br>
+        <span style="color:var(--accent2);">&#9679; done</span>&nbsp;
+        <span style="color:var(--accent);">14,975 words</span>&nbsp;
+        <span style="color:var(--text2);">depth 5 — Balanced</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openSettingsModal() {
+  const m = document.getElementById("settings-modal");
+  if (m) m.classList.add("open");
+  // Highlight active selections
+  const t = localStorage.getItem("ws-theme") || "dark";
+  const f = localStorage.getItem("ws-font")  || "inter";
+  const s = localStorage.getItem("ws-size")  || "md";
+  document.querySelectorAll(".tsw2").forEach(el => {
+    el.style.borderColor = el.dataset.t === t ? "var(--accent)" : "transparent";
+  });
+  document.querySelectorAll(".fo2").forEach(el => {
+    el.style.borderColor = el.dataset.f === f ? "var(--accent)" : "var(--border)";
+    el.style.background  = el.dataset.f === f ? "var(--bg4)" : "var(--bg3)";
+  });
+  document.querySelectorAll(".sz2").forEach(el => {
+    el.style.borderColor = el.dataset.s === s ? "var(--accent)" : "var(--border)";
+    el.style.color       = el.dataset.s === s ? "var(--accent)" : "var(--text)";
+    el.style.background  = el.dataset.s === s ? "var(--bg4)" : "var(--bg3)";
+  });
+}
+
+function closeSettingsModal() {
+  const m = document.getElementById("settings-modal");
+  if (m) m.classList.remove("open");
+}
+
+function setTheme2(name, el) {
+  document.body.className = document.body.className.replace(/theme-\w+/, "theme-" + name);
+  document.querySelectorAll(".tsw2").forEach(s => s.style.borderColor = "transparent");
+  el.style.borderColor = "var(--accent)";
+  localStorage.setItem("ws-theme", name);
+  document.getElementById("preview2").style.cssText = "padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;line-height:1.6;";
+}
+
+function setFont2(name, el) {
+  document.body.className = document.body.className.replace(/font-\w+/, "font-" + name);
+  document.querySelectorAll(".fo2").forEach(s => {
+    s.style.borderColor = "var(--border)";
+    s.style.background  = "var(--bg3)";
+  });
+  el.style.borderColor = "var(--accent)";
+  el.style.background  = "var(--bg4)";
+  localStorage.setItem("ws-font", name);
+}
+
+function setSize2(name, el) {
+  document.body.className = document.body.className.replace(/size-\w+/, "size-" + name);
+  document.querySelectorAll(".sz2").forEach(s => {
+    s.style.borderColor = "var(--border)";
+    s.style.color       = "var(--text)";
+    s.style.background  = "var(--bg3)";
+  });
+  el.style.borderColor = "var(--accent)";
+  el.style.color       = "var(--accent)";
+  el.style.background  = "var(--bg4)";
+  localStorage.setItem("ws-size", name);
+}
+</script>
+
 </body>
 </html>
