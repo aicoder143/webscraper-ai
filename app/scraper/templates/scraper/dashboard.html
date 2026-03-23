@@ -14,6 +14,24 @@
   --danger:#ff4757;--warn:#ffa502;
   --mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;
 }
+body.light {
+  --bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf2;--bg4:#dde3ea;
+  --border:#c8d3de;--border2:#a0b0c0;
+  --accent:#0077aa;--accent2:#007744;--accent3:#cc4400;
+  --text:#1a2535;--text2:#445566;--text3:#7a8fa0;
+  --danger:#cc2233;--warn:#996600;
+}
+body.light::before{opacity:0.08;}
+/* Theme toggle button */
+.theme-toggle{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:20px;padding:4px 12px;cursor:pointer;
+  font-family:var(--mono);font-size:11px;color:var(--text2);
+  transition:all .2s;
+}
+.theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+.theme-icon{font-size:13px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:var(--mono);}
@@ -22,7 +40,6 @@ body::before{content:'';position:fixed;inset:0;
   linear-gradient(90deg,var(--border) 1px,transparent 1px);
   background-size:40px 40px;opacity:0.2;pointer-events:none;z-index:0;}
 
-/* ── Header ── */
 header{position:relative;z-index:100;height:56px;padding:0 28px;
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
@@ -40,48 +57,73 @@ header{position:relative;z-index:100;height:56px;padding:0 28px;
   animation:blink 2s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 
-/* ── Layout ── */
-.layout{position:relative;z-index:10;display:flex;
-  height:calc(100vh - 56px);}
+.layout{position:relative;z-index:10;display:flex;height:calc(100vh - 56px);}
 
-/* ── Left sidebar ── */
-.sidebar{width:340px;flex-shrink:0;border-right:1px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;background:var(--bg2);}
-
+.sidebar{width:360px;flex-shrink:0;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;background:var(--bg2);min-height:0;}
 .s-block{padding:14px 16px;border-bottom:1px solid var(--border);}
 .s-label{font-size:10px;font-weight:500;color:var(--text3);
   text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px;}
 
-/* Input */
 .input-row{display:flex;gap:7px;}
 .url-inp{flex:1;background:var(--bg3);border:1px solid var(--border);
   border-radius:6px;padding:9px 12px;color:var(--text);
   font-family:var(--mono);font-size:12px;outline:none;transition:border .2s;}
-.url-inp:focus{border-color:var(--accent);
-  box-shadow:0 0 0 2px rgba(0,212,255,.08);}
+.url-inp:focus{border-color:var(--accent);}
 .url-inp::placeholder{color:var(--text3);}
 
+/* Depth slider */
+.depth-wrap{margin-top:12px;}
+.depth-header{display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:6px;}
+.depth-title{font-size:10px;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.08em;}
+.depth-badge{font-size:11px;font-weight:500;padding:2px 10px;
+  border-radius:12px;background:rgba(0,212,255,.12);
+  color:var(--accent);border:1px solid rgba(0,212,255,.2);}
+.slider-wrap{position:relative;}
+input[type=range]{
+  width:100%;height:6px;border-radius:3px;
+  -webkit-appearance:none;appearance:none;
+  background:var(--bg4);outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--accent);cursor:pointer;
+  box-shadow:0 0 8px rgba(0,212,255,.5);}
+input[type=range]::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:none;}
+.depth-ticks{display:flex;justify-content:space-between;
+  margin-top:4px;}
+.depth-tick{font-size:9px;color:var(--text3);text-align:center;width:10%;}
+.depth-tick.active{color:var(--accent);font-weight:500;}
+
+/* Depth info cards */
+.depth-info{display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:6px;margin-top:8px;}
+.di{background:var(--bg3);border:1px solid var(--border);
+  border-radius:6px;padding:6px 8px;text-align:center;}
+.di-val{font-size:13px;font-weight:700;color:var(--accent);}
+.di-lbl{font-size:9px;color:var(--text3);margin-top:1px;
+  text-transform:uppercase;}
+
+/* Buttons */
 .btn{padding:9px 14px;border-radius:6px;border:none;
   font-family:var(--mono);font-size:12px;font-weight:500;
   cursor:pointer;transition:all .2s;white-space:nowrap;outline:none;}
 .btn-primary{background:var(--accent);color:#000;}
-.btn-primary:hover{background:#2de0ff;
-  box-shadow:0 0 14px rgba(0,212,255,.35);}
+.btn-primary:hover{background:#2de0ff;box-shadow:0 0 14px rgba(0,212,255,.35);}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
 .btn-sm{padding:5px 10px;font-size:11px;border-radius:5px;}
-.btn-ghost{background:transparent;color:var(--text2);
-  border:1px solid var(--border);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border);}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
-.btn-success{background:transparent;color:var(--accent2);
-  border:1px solid rgba(0,255,136,.4);}
+.btn-success{background:transparent;color:var(--accent2);border:1px solid rgba(0,255,136,.4);}
 .btn-success:hover{background:rgba(0,255,136,.08);}
-.btn-warn{background:transparent;color:var(--accent3);
-  border:1px solid rgba(255,107,53,.4);}
+.btn-warn{background:transparent;color:var(--accent3);border:1px solid rgba(255,107,53,.4);}
 .btn-warn:hover{background:rgba(255,107,53,.08);}
-.btn-danger{background:transparent;color:var(--danger);
-  border:1px solid rgba(255,71,87,.3);}
-.btn-danger:hover{background:rgba(255,71,87,.08);
-  border-color:var(--danger);}
+.btn-danger{background:transparent;color:var(--danger);border:1px solid rgba(255,71,87,.3);}
+.btn-danger:hover{background:rgba(255,71,87,.08);border-color:var(--danger);}
 
 /* Terminal */
 .terminal{background:var(--bg);border:1px solid var(--border);
@@ -102,63 +144,46 @@ header{position:relative;z-index:100;height:56px;padding:0 28px;
   border-radius:6px;padding:8px 6px;text-align:center;}
 .stat-n{font-family:var(--sans);font-size:20px;font-weight:800;
   color:var(--accent);line-height:1;}
-.stat-l{font-size:9px;color:var(--text3);margin-top:1px;
-  text-transform:uppercase;}
+.stat-l{font-size:9px;color:var(--text3);margin-top:1px;text-transform:uppercase;}
 
 /* Jobs list */
-.jobs-wrap{flex:1;overflow-y:auto;padding:8px;}
-.jobs-wrap::-webkit-scrollbar{width:3px;}
-.jobs-wrap::-webkit-scrollbar-thumb{background:var(--border2);}
+.jobs-wrap{flex:1;overflow-y:auto;padding:8px;min-height:0;}
+.jobs-wrap::-webkit-scrollbar{width:4px;}
+.jobs-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.jobs-wrap::-webkit-scrollbar-track{background:transparent;}
 
-/* ── JOB CARD — fully clickable ── */
-.job-card{
-  display:block;
-  width:100%;
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:12px;
-  margin-bottom:8px;
-  cursor:pointer;
-  transition:all .18s;
-  text-align:left;
-  font-family:var(--mono);
-  color:var(--text);
-  text-decoration:none;
-  -webkit-appearance:none;
-  appearance:none;
-}
-.job-card:hover{
-  border-color:var(--border2);
-  background:var(--bg4);
-  transform:translateX(2px);
-}
-.job-card.active{
-  border-color:var(--accent);
-  background:var(--bg4);
-}
-.job-card:focus{
-  outline:2px solid var(--accent);
-  outline-offset:2px;
-}
-.jc-top{display:flex;align-items:center;
-  justify-content:space-between;gap:8px;margin-bottom:5px;}
+.job-card{display:block;width:100%;background:var(--bg3);
+  border:1px solid var(--border);border-radius:8px;padding:12px;
+  margin-bottom:8px;cursor:pointer;transition:all .18s;
+  text-align:left;font-family:var(--mono);color:var(--text);
+  -webkit-appearance:none;appearance:none;}
+.job-card:hover{border-color:var(--border2);background:var(--bg4);transform:translateX(2px);}
+.job-card.active{border-color:var(--accent);background:var(--bg4);}
+.jc-top{display:flex;align-items:center;justify-content:space-between;
+  gap:8px;margin-bottom:5px;}
 .jc-url{font-size:12px;color:var(--text);overflow:hidden;
   text-overflow:ellipsis;white-space:nowrap;flex:1;font-weight:500;}
-.jc-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.jc-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;}
 .jc-stat{font-size:10px;color:var(--text3);}
 .jc-stat b{color:var(--text2);}
-.jc-icons{display:flex;gap:5px;margin-top:4px;}
-.jc-icon{font-size:10px;padding:1px 6px;border-radius:3px;}
-.jc-pdf{color:var(--accent3);background:rgba(255,107,53,.1);}
-.jc-ai{color:var(--accent2);background:rgba(0,255,136,.1);}
 
-/* Progress */
-.prog{height:2px;background:var(--border);border-radius:1px;margin-top:6px;}
+/* Timing row on job card */
+.jc-timing{display:flex;align-items:center;gap:8px;margin-top:4px;}
+.timing-pill{font-size:10px;padding:1px 7px;border-radius:10px;}
+.tp-time{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
+.tp-depth{background:rgba(255,107,53,.1);color:var(--accent3);border:1px solid rgba(255,107,53,.2);}
+.tp-speed{background:rgba(0,255,136,.1);color:var(--accent2);border:1px solid rgba(0,255,136,.2);}
+
+/* Live timer */
+.live-timer{display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--warn);font-weight:500;}
+.timer-dot{width:5px;height:5px;border-radius:50%;background:var(--warn);
+  animation:blink .5s infinite;}
+
+.prog{height:3px;background:var(--border);border-radius:1px;margin-top:6px;}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
   border-radius:1px;transition:width .5s ease;}
 
-/* Badge */
 .badge{display:inline-flex;align-items:center;gap:4px;
   padding:2px 7px;border-radius:10px;font-size:10px;font-weight:500;}
 .badge::before{content:'';width:5px;height:5px;border-radius:50%;}
@@ -171,7 +196,7 @@ header{position:relative;z-index:100;height:56px;padding:0 28px;
 .b-failed{background:rgba(255,71,87,.15);color:var(--danger);}
 .b-failed::before{background:var(--danger);}
 
-/* ── Right panel ── */
+/* Main panel */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .main-hdr{height:52px;padding:0 24px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
@@ -182,7 +207,24 @@ header{position:relative;z-index:100;height:56px;padding:0 28px;
 .main-body::-webkit-scrollbar{width:4px;}
 .main-body::-webkit-scrollbar-thumb{background:var(--border2);}
 
-/* Tabs */
+/* Timing panel in overview */
+.timing-panel{background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:16px;margin-bottom:16px;}
+.timing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px;}
+.tg-item{text-align:center;}
+.tg-val{font-family:var(--sans);font-size:20px;font-weight:800;line-height:1;}
+.tg-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;margin-top:2px;}
+
+/* Depth comparison bar */
+.depth-compare{background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:14px;margin-bottom:16px;}
+.dc-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.dc-lbl{font-size:10px;color:var(--text2);width:100px;flex-shrink:0;}
+.dc-bar-wrap{flex:1;height:8px;background:var(--bg4);border-radius:4px;overflow:hidden;}
+.dc-bar{height:100%;border-radius:4px;transition:width 1s ease;}
+.dc-val{font-size:10px;color:var(--text2);width:60px;text-align:right;flex-shrink:0;}
+
+/* Overview / tabs */
 .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:20px;}
 .tab{padding:8px 16px;font-size:11px;color:var(--text3);cursor:pointer;
   border-bottom:2px solid transparent;transition:all .18s;
@@ -190,101 +232,72 @@ header{position:relative;z-index:100;height:56px;padding:0 28px;
   font-family:var(--mono);outline:none;}
 .tab:hover{color:var(--text2);}
 .tab.on{color:var(--accent);border-bottom-color:var(--accent);}
-
-/* Overview cards */
-.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;
-  margin-bottom:16px;}
-.ov-card{background:var(--bg2);border:1px solid var(--border);
-  border-radius:8px;padding:14px;}
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.ov-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;}
 .ov-card.full{grid-column:1/-1;}
-.ov-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;
-  letter-spacing:.08em;margin-bottom:5px;}
+.ov-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
 .ov-val{font-size:13px;color:var(--text);}
-.ov-val.big{font-family:var(--sans);font-size:22px;
-  font-weight:800;color:var(--accent);}
-
-/* Search */
+.ov-val.big{font-family:var(--sans);font-size:22px;font-weight:800;color:var(--accent);}
 .search-bar{display:flex;gap:8px;margin-bottom:16px;}
 .search-inp{flex:1;background:var(--bg3);border:1px solid var(--border);
   border-radius:6px;padding:9px 12px;color:var(--text);
   font-family:var(--mono);font-size:12px;outline:none;transition:border .2s;}
 .search-inp:focus{border-color:var(--accent);}
 .search-inp::placeholder{color:var(--text3);}
-.search-results{background:var(--bg2);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;}
-.sr-header{padding:10px 16px;border-bottom:1px solid var(--border);
-  font-size:11px;color:var(--text2);}
+.search-results{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.sr-header{padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;color:var(--text2);}
 .sr-item{padding:12px 16px;border-bottom:1px solid rgba(30,45,61,.5);}
 .sr-item:last-child{border-bottom:none;}
-.sr-item:hover{background:rgba(0,212,255,.03);}
 .sr-title{font-size:12px;color:var(--text);margin-bottom:3px;}
-.sr-url{font-size:10px;color:var(--accent);margin-bottom:5px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sr-url{font-size:10px;color:var(--accent);margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .sr-snippet{font-size:11px;color:var(--text2);line-height:1.6;}
-.sr-snippet mark{background:rgba(0,212,255,.25);color:var(--accent);
-  border-radius:2px;padding:0 2px;}
+.sr-snippet mark{background:rgba(0,212,255,.25);color:var(--accent);border-radius:2px;padding:0 2px;}
 .sr-none{padding:32px;text-align:center;font-size:12px;color:var(--text3);}
-
-/* Pages list */
-.pages-box{background:var(--bg2);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;}
-.pg-row{display:flex;align-items:center;gap:10px;
-  padding:10px 14px;border-bottom:1px solid rgba(30,45,61,.4);}
+.pages-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.pg-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(30,45,61,.4);}
 .pg-row:last-child{border-bottom:none;}
 .pg-n{color:var(--text3);font-size:10px;width:20px;flex-shrink:0;}
-.pg-title{flex:1;font-size:11px;color:var(--text);overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap;}
-.pg-w{font-size:10px;color:var(--text3);background:var(--bg3);
-  border:1px solid var(--border);padding:1px 6px;border-radius:3px;
-  flex-shrink:0;}
-
-/* Analysis */
+.pg-title{flex:1;font-size:11px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pg-w{font-size:10px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:3px;flex-shrink:0;}
 .an-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.an-card{background:var(--bg2);border:1px solid var(--border);
-  border-radius:8px;padding:14px;}
+.an-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;}
 .an-card.full{grid-column:1/-1;}
-.an-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;
-  letter-spacing:.08em;margin-bottom:6px;}
+.an-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
 .an-val{font-size:13px;color:var(--text);}
-.an-val.hl{color:var(--accent);font-family:var(--sans);
-  font-size:15px;font-weight:700;}
+.an-val.hl{color:var(--accent);font-family:var(--sans);font-size:15px;font-weight:700;}
 .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px;}
-.tag{padding:2px 8px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:4px;font-size:10px;color:var(--text2);}
+.tag{padding:2px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;font-size:10px;color:var(--text2);}
 .facts{list-style:none;}
-.facts li{padding:5px 0;border-bottom:1px solid rgba(30,45,61,.5);
-  font-size:11px;color:var(--text2);}
+.facts li{padding:5px 0;border-bottom:1px solid rgba(30,45,61,.5);font-size:11px;color:var(--text2);}
 .facts li:last-child{border-bottom:none;}
-.facts li::before{content:'▸ ';color:var(--accent);}
-
-/* Empty / loading */
-.empty{display:flex;flex-direction:column;align-items:center;
-  justify-content:center;height:100%;gap:10px;color:var(--text3);}
+.facts li::before{content:'\25B8 ';color:var(--accent);}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--text3);}
 .empty-ico{font-size:40px;opacity:.15;}
 .empty-msg{font-family:var(--sans);font-size:14px;}
 .empty-sub{font-size:11px;}
 .loading{text-align:center;padding:40px;font-size:12px;color:var(--text3);}
-
 @keyframes spin{to{transform:rotate(360deg);}}
 .spin{animation:spin 1s linear infinite;display:inline-block;}
-@keyframes fadein{from{opacity:0;transform:translateY(6px);}
-  to{opacity:1;transform:translateY(0);}}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 .fadein{animation:fadein .25s ease;}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">
     <div class="logo-mark"><div class="logo-dot"></div></div>
     <div class="logo-name">Web<span>Scraper</span> AI</div>
   </div>
-  <div class="sys"><div class="sys-dot"></div>All systems operational</div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <button class="theme-toggle" onclick="toggleTheme()" type="button" id="theme-btn">
+      <span class="theme-icon" id="theme-icon">☀</span>
+      <span id="theme-label">Light</span>
+    </button>
+    <div class="sys"><div class="sys-dot"></div>All systems operational</div>
+  </div>
 </header>
 
 <div class="layout">
-
-  <!-- ── Sidebar ── -->
   <div class="sidebar">
 
     <div class="s-block">
@@ -292,9 +305,36 @@ header{position:relative;z-index:100;height:56px;padding:0 28px;
       <div class="input-row">
         <input id="url-inp" class="url-inp" type="url"
           placeholder="https://example.com" autocomplete="off"/>
-        <button class="btn btn-primary" id="run-btn" onclick="submitScrape()">
-          Run
-        </button>
+        <button class="btn btn-primary" id="run-btn"
+          onclick="submitScrape()" type="button">Run</button>
+      </div>
+
+      <!-- Depth Slider -->
+      <div class="depth-wrap">
+        <div class="depth-header">
+          <span class="depth-title">Scrape Depth</span>
+          <span class="depth-badge" id="depth-badge">5 — Balanced</span>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="depth-slider"
+            min="1" max="10" value="5"
+            oninput="onDepthChange(this.value)"/>
+        </div>
+        <div class="depth-ticks" id="depth-ticks"></div>
+        <div class="depth-info">
+          <div class="di">
+            <div class="di-val" id="di-pages">50</div>
+            <div class="di-lbl">Max pages</div>
+          </div>
+          <div class="di">
+            <div class="di-val" id="di-delay">1.0s</div>
+            <div class="di-lbl">Page delay</div>
+          </div>
+          <div class="di">
+            <div class="di-val" id="di-est">~3min</div>
+            <div class="di-lbl">Est. time</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -309,593 +349,743 @@ header{position:relative;z-index:100;height:56px;padding:0 28px;
     <div class="s-block">
       <div class="s-label">Stats</div>
       <div class="stats">
-        <div class="stat">
-          <div class="stat-n" id="s-total">0</div>
-          <div class="stat-l">Jobs</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n" id="s-done"
-            style="color:var(--accent2)">0</div>
-          <div class="stat-l">Done</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n" id="s-pages">0</div>
-          <div class="stat-l">Pages</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n" id="s-words"
-            style="color:var(--accent3)">0</div>
-          <div class="stat-l">K words</div>
-        </div>
+        <div class="stat"><div class="stat-n" id="s-total">0</div>
+          <div class="stat-l">Jobs</div></div>
+        <div class="stat"><div class="stat-n" id="s-done"
+          style="color:var(--accent2)">0</div>
+          <div class="stat-l">Done</div></div>
+        <div class="stat"><div class="stat-n" id="s-pages">0</div>
+          <div class="stat-l">Pages</div></div>
+        <div class="stat"><div class="stat-n" id="s-words"
+          style="color:var(--accent3)">0</div>
+          <div class="stat-l">K words</div></div>
       </div>
     </div>
 
     <div class="s-block" style="padding-bottom:8px;">
       <div class="s-label">Recent Jobs</div>
     </div>
-
     <div class="jobs-wrap" id="jobs-wrap">
-      <div style="padding:16px;text-align:center;
-        font-size:11px;color:var(--text3);">No jobs yet</div>
+      <div style="padding:16px;text-align:center;font-size:11px;
+        color:var(--text3);">No jobs yet</div>
     </div>
-
   </div>
 
-  <!-- ── Main panel ── -->
+  <!-- Main panel -->
   <div class="main">
     <div class="main-hdr">
-      <div class="main-title" id="main-title">
-        Select a job to view results
-      </div>
+      <div class="main-title" id="main-title">Select a job to view results</div>
       <div class="main-acts" id="main-acts"></div>
     </div>
     <div class="main-body" id="main-body">
       <div class="empty">
         <div class="empty-ico">◈</div>
         <div class="empty-msg">No job selected</div>
-        <div class="empty-sub">
-          Submit a URL or click a job card on the left
-        </div>
+        <div class="empty-sub">Submit a URL or click a job card</div>
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
 const API = '/api';
 let selId = null;
 let polls = {};
+let liveTimers = {};
 
-/* ── csrf ── */
-function csrf() {
-  const m = document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)');
-  return m ? m.pop() : '';
+const DEPTH_CFG = {
+  1:  {pages:5,   delay:3.0, label:"Surface",       color:"#607d8b"},
+  2:  {pages:10,  delay:2.0, label:"Light",          color:"#78909c"},
+  3:  {pages:20,  delay:1.5, label:"Shallow",        color:"#4db6ac"},
+  4:  {pages:30,  delay:1.0, label:"Moderate-light", color:"#26c6da"},
+  5:  {pages:50,  delay:1.0, label:"Balanced",       color:"#00d4ff"},
+  6:  {pages:75,  delay:0.8, label:"Moderate-deep",  color:"#42a5f5"},
+  7:  {pages:100, delay:0.5, label:"Deep",           color:"#7e57c2"},
+  8:  {pages:150, delay:0.3, label:"Very deep",      color:"#ab47bc"},
+  9:  {pages:175, delay:0.2, label:"Thorough",       color:"#ef5350"},
+  10: {pages:200, delay:0.0, label:"Maximum",        color:"#ff6b35"},
+};
+
+function estTime(depth) {
+  const c   = DEPTH_CFG[depth];
+  const sec = c.pages * (c.delay + 1.5);
+  if (sec < 60)  return Math.round(sec) + "s";
+  if (sec < 3600) return Math.round(sec/60) + "min";
+  return (sec/3600).toFixed(1) + "h";
 }
 
-/* ── log ── */
-function log(msg, t='i') {
-  const el = document.getElementById('terminal');
-  const ts = new Date().toTimeString().slice(0,8);
-  const d  = document.createElement('div');
-  d.className = 'll';
-  d.innerHTML =
-    `<span class="lt">${ts}</span><span class="l${t}">${msg}</span>`;
+function onDepthChange(v) {
+  v = parseInt(v);
+  const c   = DEPTH_CFG[v];
+  const col = c.color;
+
+  document.getElementById("depth-badge").textContent =
+    v + " \u2014 " + c.label;
+  document.getElementById("depth-badge").style.color = col;
+  document.getElementById("depth-badge").style.borderColor = col + "44";
+  document.getElementById("depth-badge").style.background  = col + "18";
+
+  document.getElementById("di-pages").textContent = c.pages;
+  document.getElementById("di-pages").style.color = col;
+  document.getElementById("di-delay").textContent =
+    c.delay > 0 ? c.delay + "s" : "None";
+  document.getElementById("di-delay").style.color = col;
+  document.getElementById("di-est").textContent   = estTime(v);
+  document.getElementById("di-est").style.color   = col;
+
+  // Update slider gradient
+  const pct = (v - 1) / 9 * 100;
+  document.getElementById("depth-slider").style.background =
+    "linear-gradient(90deg, " + col + " " + pct + "%, var(--bg4) " + pct + "%)";
+
+  // Update tick highlights
+  document.querySelectorAll(".depth-tick").forEach((t, i) => {
+    t.classList.toggle("active", i + 1 === v);
+    t.style.color = i + 1 === v ? col : "";
+  });
+}
+
+// Build tick marks
+(function buildTicks() {
+  const wrap = document.getElementById("depth-ticks");
+  for (let i = 1; i <= 10; i++) {
+    const d   = document.createElement("div");
+    d.className = "depth-tick" + (i === 5 ? " active" : "");
+    d.textContent = i;
+    wrap.appendChild(d);
+  }
+  onDepthChange(5);
+})();
+
+// Format seconds to readable
+function fmtDuration(sec) {
+  if (!sec || sec === 0) return "—";
+  sec = Math.round(sec);
+  if (sec < 60)   return sec + "s";
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  if (m < 60)     return m + "m " + s + "s";
+  const h = Math.floor(m / 60);
+  return h + "h " + (m % 60) + "m";
+}
+
+// Live elapsed timer for running jobs
+function startLiveTimer(jobId, startedAt) {
+  if (liveTimers[jobId]) return;
+  liveTimers[jobId] = setInterval(() => {
+    const el = document.getElementById("live-timer-" + jobId);
+    if (!el) { clearInterval(liveTimers[jobId]); return; }
+    const elapsed = Math.round((Date.now() - new Date(startedAt).getTime()) / 1000);
+    el.textContent = fmtDuration(elapsed);
+  }, 1000);
+}
+
+function stopLiveTimer(jobId) {
+  if (liveTimers[jobId]) {
+    clearInterval(liveTimers[jobId]);
+    delete liveTimers[jobId];
+  }
+}
+
+function log(msg, t="i") {
+  const el  = document.getElementById("terminal");
+  const ts  = new Date().toTimeString().slice(0,8);
+  const d   = document.createElement("div");
+  d.className = "ll";
+  d.innerHTML = "<span class=\"lt\">" + ts + "</span><span class=\"l" + t + "\">" + msg + "</span>";
   el.appendChild(d);
   el.scrollTop = el.scrollHeight;
   while (el.children.length > 80) el.removeChild(el.firstChild);
 }
 
-/* ── submit ── */
+function csrf() {
+  const m = document.cookie.match("(^|;)\\s*csrftoken\\s*=\\s*([^;]+)");
+  return m ? m.pop() : "";
+}
+
 async function submitScrape() {
-  const inp = document.getElementById('url-inp');
-  const btn = document.getElementById('run-btn');
-  const url = inp.value.trim();
-  if (!url) { log('Enter a URL first','w'); return; }
-  if (!url.startsWith('http')) {
-    log('URL must start with http:// or https://','e'); return;
-  }
+  const inp   = document.getElementById("url-inp");
+  const btn   = document.getElementById("run-btn");
+  const url   = inp.value.trim();
+  const depth = parseInt(document.getElementById("depth-slider").value);
+  const cfg   = DEPTH_CFG[depth];
+
+  if (!url) { log("Enter a URL first", "w"); return; }
+  if (!url.startsWith("http")) { log("URL must start with http(s)://", "e"); return; }
+
   btn.disabled = true;
-  btn.innerHTML = '<span class="spin">↻</span>';
-  log(`Submitting: ${url}`,'i');
+  btn.innerHTML = "<span class=\"spin\">\u21BB</span>";
+  log("Submitting: " + url + " (depth=" + depth + ", ~" + cfg.pages + " pages)", "i");
+  log("Estimated time: " + estTime(depth), "i");
+
   try {
-    const r = await fetch(`${API}/scrape/`, {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'X-CSRFToken':csrf()
-      },
-      body:JSON.stringify({url})
+    const r = await fetch(API + "/scrape/", {
+      method: "POST",
+      headers: {"Content-Type":"application/json","X-CSRFToken":csrf()},
+      body: JSON.stringify({url, depth})
     });
     const d = await r.json();
     if (r.ok) {
-      log(`Job #${d.id} started — discovering sitemap...`,'k');
-      inp.value = '';
+      log("Job #" + d.id + " started — depth " + depth + " (" + cfg.label + ")", "k");
+      inp.value = "";
       await loadJobs();
       poll(d.id);
     } else {
-      log(`Error: ${d.error||'unknown'}`,'e');
+      log("Error: " + (d.error || "unknown"), "e");
     }
-  } catch(e) {
-    log(`Network error: ${e.message}`,'e');
-  }
+  } catch(e) { log("Network error: " + e.message, "e"); }
   btn.disabled = false;
-  btn.textContent = 'Run';
+  btn.textContent = "Run";
 }
 
-/* ── poll single job ── */
 function poll(id) {
   if (polls[id]) return;
   polls[id] = setInterval(async () => {
     try {
-      const r = await fetch(`${API}/status/${id}/`);
+      const r = await fetch(API + "/status/" + id + "/");
       const d = await r.json();
-      if (d.status === 'done') {
-        log(`#${id} complete — ${d.pages_with_content} pages, `+
-            `${(d.total_words||0).toLocaleString()} words`,'k');
+      if (d.status === "done") {
+        const dur = fmtDuration(d.scrape_duration);
+        log("#" + id + " complete — " + d.pages_with_content + " pages in " + dur, "k");
+        stopLiveTimer(id);
         clearInterval(polls[id]); delete polls[id];
         await loadJobs();
         if (selId === id) showJob(id);
-      } else if (d.status === 'failed') {
-        log(`#${id} failed`,'e');
+      } else if (d.status === "failed") {
+        log("#" + id + " failed", "e");
+        stopLiveTimer(id);
         clearInterval(polls[id]); delete polls[id];
         await loadJobs();
-      } else if (d.status === 'scraping') {
-        log(`#${id} — ${d.pages_with_content}/${d.pages_found} pages`,'i');
+      } else if (d.status === "scraping") {
+        log("#" + id + " — " + d.pages_with_content + "/" + d.pages_found + " pages", "i");
         await loadJobs();
       }
     } catch(e) {}
   }, 3000);
 }
 
-/* ── load all jobs ── */
 async function loadJobs() {
   try {
-    const r    = await fetch(`${API}/scrape/`);
+    const r    = await fetch(API + "/scrape/");
     const jobs = await r.json();
     renderJobs(jobs);
     updateStats(jobs);
     jobs.forEach(j => {
-      if (j.status==='scraping'||j.status==='pending') poll(j.id);
+      if (j.status === "scraping" || j.status === "pending") {
+        poll(j.id);
+        if (j.scrape_started) startLiveTimer(j.id, j.scrape_started);
+      } else {
+        stopLiveTimer(j.id);
+      }
     });
   } catch(e) {}
 }
 
-/* ── render job cards ── */
 function renderJobs(jobs) {
-  const el = document.getElementById('jobs-wrap');
+  const el = document.getElementById("jobs-wrap");
   if (!jobs.length) {
-    el.innerHTML = `<div style="padding:20px;text-align:center;
-      font-size:11px;color:var(--text3);">No jobs yet</div>`;
+    el.innerHTML = "<div style=\"padding:20px;text-align:center;font-size:11px;color:var(--text3)\">No jobs yet</div>";
     return;
   }
   el.innerHTML = jobs.map(j => {
-    const pct = j.pages_found
-      ? Math.round((j.pages_with_content/j.pages_found)*100) : 0;
-    let domain = j.url;
-    try { domain = new URL(j.url).hostname.replace('www.',''); }
-    catch(e) {}
-    return `
-<button
-  class="job-card ${selId===j.id?'active':''}"
-  onclick="selectJob(${j.id})"
-  type="button"
-  aria-label="View job ${j.id}: ${domain}">
-  <div class="jc-top">
-    <span class="jc-url" title="${j.url}">${domain}</span>
-    <span class="badge b-${j.status}">${j.status}</span>
-  </div>
-  <div class="jc-meta">
-    <span class="jc-stat">pages <b>${j.pages_with_content}/${j.pages_found}</b></span>
-    <span class="jc-stat">words <b>${(j.total_words||0).toLocaleString()}</b></span>
-  </div>
-  <div class="jc-icons">
-    ${j.has_pdf
-      ? '<span class="jc-icon jc-pdf">PDF ✓</span>' : ''}
-    ${j.has_analysis
-      ? '<span class="jc-icon jc-ai">AI ✓</span>' : ''}
-  </div>
-  ${j.status==='scraping'
-    ? `<div class="prog">
-         <div class="prog-fill" style="width:${pct}%"></div>
-       </div>` : ''}
-</button>`;
-  }).join('');
+    const pct    = j.pages_found ? Math.round(j.pages_with_content / j.pages_found * 100) : 0;
+    const depth  = j.scrape_depth || 5;
+    const cfg    = DEPTH_CFG[depth] || DEPTH_CFG[5];
+    let domain   = j.url;
+    try { domain = new URL(j.url).hostname.replace("www.", ""); } catch(e) {}
+
+    // Timing display
+    let timingHtml = "";
+    if (j.status === "done" && j.scrape_duration) {
+      timingHtml =
+        "<div class=\"jc-timing\">" +
+          "<span class=\"timing-pill tp-depth\">depth " + depth + "</span>" +
+          "<span class=\"timing-pill tp-time\">" + fmtDuration(j.scrape_duration) + "</span>" +
+          (j.pages_per_second > 0 ? "<span class=\"timing-pill tp-speed\">" + j.pages_per_second.toFixed(2) + " p/s</span>" : "") +
+        "</div>";
+    } else if (j.status === "scraping" && j.scrape_started) {
+      timingHtml =
+        "<div class=\"jc-timing\">" +
+          "<span class=\"timing-pill tp-depth\">depth " + depth + "</span>" +
+          "<div class=\"live-timer\">" +
+            "<div class=\"timer-dot\"></div>" +
+            "<span id=\"live-timer-" + j.id + "\">0s</span>" +
+          "</div>" +
+        "</div>";
+    } else {
+      timingHtml =
+        "<div class=\"jc-timing\">" +
+          "<span class=\"timing-pill tp-depth\">depth " + depth + " \u2014 " + cfg.label + "</span>" +
+        "</div>";
+    }
+
+    return "<button class=\"job-card " + (selId === j.id ? "active" : "") + "\" onclick=\"selectJob(" + j.id + ")\" type=\"button\"> <div class=\"jc-top\"><span class=\"jc-url\" title=\"" + esc(j.url) + "\">" + esc(domain) + "</span><span class=\"badge b-" + j.status + "\">" + j.status + "</span></div><div class=\"jc-meta\"><span class=\"jc-stat\">pages <b>" + j.pages_with_content + "/" + j.pages_found + "</b></span><span class=\"jc-stat\">words <b>" + (j.total_words || 0).toLocaleString() + "</b></span>" + (j.has_pdf ? "<span class=\"jc-stat\" style=\"color:var(--accent3)\">PDF</span>" : "") + (j.has_analysis ? "<span class=\"jc-stat\" style=\"color:var(--accent2)\">AI</span>" : "") + "</div>" + timingHtml + (j.status === "scraping" ? "<div class=\"prog\"><div class=\"prog-fill\" style=\"width:" + pct + "%\"></div></div>" : "") + "</button>";
+  }).join("");
 }
 
-/* ── stats ── */
 function updateStats(jobs) {
-  document.getElementById('s-total').textContent =
-    jobs.length;
-  document.getElementById('s-done').textContent =
-    jobs.filter(j=>j.status==='done').length;
-  document.getElementById('s-pages').textContent =
-    jobs.reduce((a,j)=>a+j.pages_with_content,0);
-  document.getElementById('s-words').textContent =
-    Math.round(jobs.reduce((a,j)=>a+(j.total_words||0),0)/1000);
+  document.getElementById("s-total").textContent = jobs.length;
+  document.getElementById("s-done").textContent  = jobs.filter(j => j.status === "done").length;
+  document.getElementById("s-pages").textContent = jobs.reduce((a, j) => a + j.pages_with_content, 0);
+  document.getElementById("s-words").textContent = Math.round(jobs.reduce((a, j) => a + (j.total_words || 0), 0) / 1000);
 }
 
-/* ── select job (called from button onclick) ── */
 function selectJob(id) {
   selId = id;
   loadJobs();
   showJob(id);
 }
 
-/* ── show job detail ── */
 async function showJob(id) {
-  const body = document.getElementById('main-body');
-  body.innerHTML = `<div class="loading">
-    <span class="spin">↻</span> Loading...</div>`;
+  const body = document.getElementById("main-body");
+  body.innerHTML = "<div class=\"loading\"><span class=\"spin\">\u21BB</span> Loading...</div>";
 
-  const r    = await fetch(`${API}/status/${id}/`);
+  const r    = await fetch(API + "/status/" + id + "/");
   const data = await r.json();
 
   let domain = data.url;
   try { domain = new URL(data.url).hostname; } catch(e) {}
 
-  document.getElementById('main-title').textContent = domain;
-  document.getElementById('main-acts').innerHTML = `
-    ${data.has_pdf
-      ? `<button class="btn btn-warn btn-sm"
-           onclick="downloadPDF(${id})">Download PDF</button>`
-      : `<button class="btn btn-ghost btn-sm"
-           onclick="triggerPDF(${id})">Generate PDF</button>`}
-    ${data.has_analysis
-      ? `<button class="btn btn-success btn-sm"
-           onclick="selectTab('analysis',${id})">AI Analysis</button>`
-      : `<button class="btn btn-ghost btn-sm"
-           onclick="triggerAnalysis(${id})">Run AI</button>`}
-    <button class="btn btn-danger btn-sm"
-      onclick="deleteJob(${id})">Delete</button>
-  `;
+  document.getElementById("main-title").textContent = domain;
 
-  body.innerHTML = `
-<div class="fadein">
-  <div class="tabs" id="tabs-${id}">
-    <button class="tab on" onclick="selectTab('overview',${id})"
-      type="button">Overview</button>
-    <button class="tab" onclick="selectTab('search',${id})"
-      type="button">Search</button>
-    <button class="tab" onclick="selectTab('pages',${id})"
-      type="button">Pages (${data.pages_with_content})</button>
-    ${data.has_analysis
-      ? `<button class="tab"
-           onclick="selectTab('analysis',${id})"
-           type="button">AI Analysis</button>` : ''}
-  </div>
+  const depth = data.scrape_depth || 5;
+  const cfg   = DEPTH_CFG[depth] || DEPTH_CFG[5];
 
-  <!-- Overview -->
-  <div id="pane-overview">
-    <div class="ov-grid">
-      <div class="ov-card full">
-        <div class="ov-lbl">URL</div>
-        <div class="ov-val" style="font-size:11px;
-          word-break:break-all;">${data.url}</div>
-      </div>
-      <div class="ov-card">
-        <div class="ov-lbl">Status</div>
-        <div class="ov-val">
-          <span class="badge b-${data.status}">${data.status}</span>
-        </div>
-      </div>
-      <div class="ov-card">
-        <div class="ov-lbl">Scrape mode</div>
-        <div class="ov-val">${data.scrape_mode||'—'}</div>
-      </div>
-      <div class="ov-card">
-        <div class="ov-lbl">Pages scraped</div>
-        <div class="ov-val big">
-          ${data.pages_with_content}
-          <span style="font-size:14px;color:var(--text3)">
-            / ${data.pages_found}</span>
-        </div>
-      </div>
-      <div class="ov-card">
-        <div class="ov-lbl">Total words</div>
-        <div class="ov-val big">
-          ${(data.total_words||0).toLocaleString()}
-        </div>
-      </div>
-      <div class="ov-card">
-        <div class="ov-lbl">PDF</div>
-        <div class="ov-val" style="color:${data.has_pdf
-          ? 'var(--accent3)':'var(--text3)'}">
-          ${data.has_pdf ? 'Ready to download' : 'Not generated'}
-        </div>
-      </div>
-      <div class="ov-card">
-        <div class="ov-lbl">AI Analysis</div>
-        <div class="ov-val" style="color:${data.has_analysis
-          ? 'var(--accent2)':'var(--text3)'}">
-          ${data.has_analysis ? 'Complete' : 'Not run yet'}
-        </div>
-      </div>
-      <div class="ov-card full">
-        <div class="ov-lbl">Scraped at</div>
-        <div class="ov-val">
-          ${new Date(data.created_at).toLocaleString()}
-        </div>
-      </div>
-    </div>
-  </div>
+  document.getElementById("main-acts").innerHTML =
+    (data.has_pdf
+      ? "<button class=\"btn btn-warn btn-sm\" onclick=\"downloadPDF(" + id + ")\" type=\"button\">PDF</button>"
+      : "<button class=\"btn btn-ghost btn-sm\" onclick=\"triggerPDF(" + id + ")\" type=\"button\">Gen PDF</button>") +
+    (data.has_analysis
+      ? "<button class=\"btn btn-success btn-sm\" onclick=\"selectTab('analysis'," + id + ")\" type=\"button\">AI Analysis</button>"
+      : "<button class=\"btn btn-ghost btn-sm\" onclick=\"triggerAnalysis(" + id + ")\" type=\"button\">Run AI</button>") +
+    "<button class=\"btn btn-ghost btn-sm\" onclick=\"showPageBrowser(" + id + ")\" type=\"button\">Browse Pages</button>" +
+    "<button class=\"btn btn-ghost btn-sm\" onclick=\"showExport(" + id + ")\" type=\"button\">Export</button>" +
+    "<button class=\"btn btn-danger btn-sm\" onclick=\"deleteJob(" + id + ")\" type=\"button\">Delete</button>";
 
-  <!-- Search pane -->
-  <div id="pane-search" style="display:none;">
-    <div class="search-bar">
-      <input id="kw-inp" class="search-inp"
-        placeholder="Search keywords across all scraped pages..."
-        oninput="debounceSearch(${id})"
-        autocomplete="off"/>
-      <button class="btn btn-primary btn-sm"
-        onclick="doSearch(${id})" type="button">Search</button>
-    </div>
-    <div id="search-out-${id}">
-      <div class="sr-none">
-        Enter a keyword to search all scraped content
-      </div>
-    </div>
-  </div>
+  // Build timing section
+  let timingSection = "";
+  if (data.scrape_duration && data.scrape_duration > 0) {
+    const dur = fmtDuration(data.scrape_duration);
+    const pps = data.pages_per_second || 0;
+    const est = estTime(depth);
+    const barW = Math.min(100, Math.round(data.scrape_duration / (cfg.pages * (cfg.delay + 1.5)) * 100));
 
-  <!-- Pages pane -->
-  <div id="pane-pages" style="display:none;">
-    <div class="pages-box">
-      ${data.sample_pages.map((p,i) => `
-        <div class="pg-row">
-          <span class="pg-n">${i+1}</span>
-          <span class="pg-title" title="${p.url}">
-            ${p.title||p.url}
-          </span>
-          <span class="pg-w">
-            ${(p.word_count||0).toLocaleString()}w
-          </span>
-        </div>`).join('')}
-      ${data.pages_with_content > 10
-        ? `<div style="padding:10px 14px;font-size:10px;
-             color:var(--text3);">
-             Showing 10 of ${data.pages_with_content} pages
-           </div>` : ''}
-    </div>
-  </div>
+    timingSection =
+      "<div class=\"timing-panel\">" +
+        "<div style=\"font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;\">Scrape timing</div>" +
+        "<div class=\"timing-grid\">" +
+          "<div class=\"tg-item\"><div class=\"tg-val\" style=\"color:" + cfg.color + "\">" + depth + "</div><div class=\"tg-lbl\">Depth</div></div>" +
+          "<div class=\"tg-item\"><div class=\"tg-val\" style=\"color:var(--accent)\">" + dur + "</div><div class=\"tg-lbl\">Elapsed</div></div>" +
+          "<div class=\"tg-item\"><div class=\"tg-val\" style=\"color:var(--accent2)\">" + pps.toFixed(2) + "</div><div class=\"tg-lbl\">Pages/sec</div></div>" +
+          "<div class=\"tg-item\"><div class=\"tg-val\" style=\"color:var(--text2)\">" + est + "</div><div class=\"tg-lbl\">Estimated</div></div>" +
+        "</div>" +
+        "<div style=\"margin-top:12px;\"><div style=\"display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px;\"><span>Depth label: <b style=\"color:" + cfg.color + "\">" + cfg.label + "</b></span><span>Max pages: <b style=\"color:var(--text2)\">" + cfg.pages + "</b></span><span>Page delay: <b style=\"color:var(--text2)\">" + (cfg.delay > 0 ? cfg.delay + "s" : "None") + "</b></span></div><div class=\"prog\" style=\"height:6px;\"><div class=\"prog-fill\" style=\"width:" + barW + "%;background:" + cfg.color + "\"></div></div><div style=\"font-size:9px;color:var(--text3);margin-top:3px;text-align:right;\">Actual vs estimated time</div></div>" +
+      "</div>";
+  } else if (data.status === "scraping" && data.scrape_started) {
+    timingSection =
+      "<div class=\"timing-panel\">" +
+        "<div style=\"display:flex;align-items:center;gap:10px;\">" +
+          "<div class=\"live-timer\">" +
+            "<div class=\"timer-dot\"></div>" +
+            "<span id=\"live-timer-detail-" + id + "\">0s</span>" +
+          "</div>" +
+          "<span style=\"font-size:11px;color:var(--text2)\">Scraping in progress — depth " + depth + " (" + cfg.label + ")</span>" +
+          "<span style=\"font-size:11px;color:var(--text3)\">Est: " + estTime(depth) + "</span>" +
+        "</div>" +
+      "</div>";
 
-  <!-- Analysis pane -->
-  <div id="pane-analysis" style="display:none;">
-    <div class="loading">Loading analysis...</div>
-  </div>
-</div>`;
+    // Start detail timer
+    const startedAt = data.scrape_started;
+    if (!liveTimers["detail_" + id]) {
+      liveTimers["detail_" + id] = setInterval(() => {
+        const el = document.getElementById("live-timer-detail-" + id);
+        if (!el) { clearInterval(liveTimers["detail_" + id]); return; }
+        el.textContent = fmtDuration(Math.round((Date.now() - new Date(startedAt).getTime()) / 1000));
+      }, 1000);
+    }
+  }
 
-  /* focus search input when tab shown */
+  body.innerHTML =
+    "<div class=\"fadein\">" +
+    timingSection +
+    "<div class=\"tabs\" id=\"tabs-" + id + "\">" +
+      "<button class=\"tab on\" onclick=\"selectTab('overview'," + id + ")\" type=\"button\">Overview</button>" +
+      "<button class=\"tab\" onclick=\"selectTab('search'," + id + ")\" type=\"button\">Search</button>" +
+      "<button class=\"tab\" onclick=\"selectTab('pages'," + id + ")\" type=\"button\">Pages (" + data.pages_with_content + ")</button>" +
+      (data.has_analysis ? "<button class=\"tab\" onclick=\"loadAnalysisTab(" + id + ",this)\" type=\"button\">AI Analysis</button>" : "") +
+    "</div>" +
+    "<div id=\"pane-overview\">" +
+      "<div class=\"ov-grid\">" +
+        "<div class=\"ov-card full\"><div class=\"ov-lbl\">URL</div><div class=\"ov-val\" style=\"font-size:11px;word-break:break-all;\">" + esc(data.url) + "</div></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">Status</div><div class=\"ov-val\"><span class=\"badge b-" + data.status + "\">" + data.status + "</span></div></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">Scrape mode</div><div class=\"ov-val\">" + (data.scrape_mode || "—") + "</div></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">Pages scraped</div><div class=\"ov-val big\">" + data.pages_with_content + "<span style=\"font-size:14px;color:var(--text3)\">/" + data.pages_found + "</span></div></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">Total words</div><div class=\"ov-val big\">" + (data.total_words || 0).toLocaleString() + "</div></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">Scraped at</div><div class=\"ov-val\" style=\"font-size:11px;\">" + new Date(data.created_at).toLocaleString() + "</div></div>" +
+      "</div>" +
+    "</div>" +
+    "<div id=\"pane-search\" style=\"display:none;\">" +
+      "<div class=\"search-bar\"><input id=\"kw-inp\" class=\"search-inp\" placeholder=\"Search all scraped pages...\" oninput=\"debounceSearch(" + id + ")\" autocomplete=\"off\"/><button class=\"btn btn-primary btn-sm\" onclick=\"doSearch(" + id + ")\" type=\"button\">Search</button></div>" +
+      "<div id=\"search-out-" + id + "\"><div class=\"sr-none\">Enter keyword to search</div></div>" +
+    "</div>" +
+    "<div id=\"pane-pages\" style=\"display:none;\">" +
+      "<div class=\"pages-box\">" +
+        data.sample_pages.map((p, i) =>
+          "<div class=\"pg-row\"><span class=\"pg-n\">" + (i+1) + "</span><span class=\"pg-title\" title=\"" + esc(p.url) + "\">" + esc(p.title || p.url) + "</span><span class=\"pg-w\">" + (p.word_count || 0).toLocaleString() + "w</span></div>"
+        ).join("") +
+        (data.pages_with_content > 10 ? "<div style=\"padding:10px 14px;font-size:10px;color:var(--text3)\">Showing 10 of " + data.pages_with_content + " pages</div>" : "") +
+      "</div>" +
+    "</div>" +
+    "<div id=\"pane-analysis\" style=\"display:none;\"><div class=\"loading\">Loading...</div></div>" +
+    "</div>";
 }
 
-/* ── tab switching ── */
 function selectTab(name, id) {
-  ['overview','search','pages','analysis'].forEach(n => {
-    const p = document.getElementById(`pane-${n}`);
-    if (p) p.style.display = n===name ? 'block' : 'none';
+  ["overview","search","pages","analysis"].forEach(n => {
+    const p = document.getElementById("pane-" + n);
+    if (p) p.style.display = n === name ? "block" : "none";
   });
-  document.querySelectorAll('.tab').forEach(t => {
-    t.classList.remove('on');
-    if (t.textContent.toLowerCase().startsWith(name)) {
-      t.classList.add('on');
-    }
+  document.querySelectorAll(".tab").forEach(t => {
+    t.classList.remove("on");
+    if (t.textContent.trim().toLowerCase().startsWith(name)) t.classList.add("on");
   });
-  if (name === 'analysis') loadAnalysisPane(id);
-  if (name === 'search') {
-    setTimeout(() => {
-      const inp = document.getElementById('kw-inp');
-      if (inp) inp.focus();
-    }, 50);
-  }
+  if (name === "analysis") loadAnalysisPane(id);
+  if (name === "search") setTimeout(() => { const i = document.getElementById("kw-inp"); if (i) i.focus(); }, 50);
 }
 
-/* ── keyword search ── */
-let searchTimer = null;
-function debounceSearch(id) {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => doSearch(id), 400);
-}
+async function loadAnalysisTab(id, el) { selectTab("analysis", id); }
 
-async function doSearch(id) {
-  const kw  = (document.getElementById('kw-inp').value||'').trim();
-  const out = document.getElementById(`search-out-${id}`);
-  if (!kw) {
-    out.innerHTML = `<div class="sr-none">
-      Enter a keyword to search all scraped content</div>`;
-    return;
-  }
-  out.innerHTML = `<div class="loading">
-    <span class="spin">↻</span> Searching...</div>`;
-
-  try {
-    const r = await fetch(
-      `${API}/search/${id}/?q=${encodeURIComponent(kw)}`
-    );
-    const d = await r.json();
-    if (!d.results || !d.results.length) {
-      out.innerHTML = `<div class="sr-none">
-        No results for "<b>${esc(kw)}</b>"</div>`;
-      return;
-    }
-    out.innerHTML = `
-      <div class="search-results">
-        <div class="sr-header">
-          ${d.results.length} result${d.results.length!==1?'s':''} for
-          "<b>${esc(kw)}</b>"
-        </div>
-        ${d.results.map(r => `
-          <div class="sr-item">
-            <div class="sr-title">${esc(r.title||'Untitled')}</div>
-            <div class="sr-url">${esc(r.url)}</div>
-            <div class="sr-snippet">${r.snippet}</div>
-          </div>`).join('')}
-      </div>`;
-  } catch(e) {
-    out.innerHTML = `<div class="sr-none" style="color:var(--danger);">
-      Search error: ${e.message}</div>`;
-  }
-}
-
-function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
-}
-
-/* ── analysis pane ── */
 async function loadAnalysisPane(id) {
-  const pane = document.getElementById('pane-analysis');
+  const pane = document.getElementById("pane-analysis");
+  if (!pane) return;
   try {
-    const r = await fetch(`${API}/analysis/${id}/`);
-    if (!r.ok) {
-      pane.innerHTML = `
-        <div class="sr-none">
-          Analysis not ready yet.
-          <br><br>
-          <button class="btn btn-ghost btn-sm"
-            onclick="triggerAnalysis(${id})" type="button">
-            Run AI Analysis
-          </button>
-        </div>`;
-      return;
-    }
+    const r = await fetch(API + "/analysis/" + id + "/");
+    if (!r.ok) { pane.innerHTML = "<div class=\"sr-none\">Analysis not ready. <button class=\"btn btn-ghost btn-sm\" onclick=\"triggerAnalysis(" + id + ")\" type=\"button\">Run now</button></div>"; return; }
     const data = await r.json();
     const d    = data.extracted_data;
-    pane.innerHTML = `
-      <div class="an-grid fadein">
-        <div class="an-card">
-          <div class="an-lbl">Business / Site name</div>
-          <div class="an-val hl">${esc(d.business_name||'—')}</div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Type</div>
-          <div class="an-val">${esc(d.business_type||'—')}</div>
-        </div>
-        <div class="an-card full">
-          <div class="an-lbl">Description</div>
-          <div class="an-val" style="font-size:12px;line-height:1.7;">
-            ${esc(d.description||'—')}
-          </div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Main topics</div>
-          <div class="tags">
-            ${(d.main_topics||[]).map(t=>
-              `<span class="tag">${esc(t)}</span>`
-            ).join('')||'—'}
-          </div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Products / Services</div>
-          <div class="tags">
-            ${(d.products_services||[]).map(t=>
-              `<span class="tag">${esc(t)}</span>`
-            ).join('')||'None found'}
-          </div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Contact email</div>
-          <div class="an-val">
-            ${d.contact_email
-              ? `<a href="mailto:${esc(d.contact_email)}"
-                   style="color:var(--accent)">${esc(d.contact_email)}</a>`
-              : 'Not found'}
-          </div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Contact phone</div>
-          <div class="an-val">
-            ${esc(d.contact_phone||'Not found')}
-          </div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Location</div>
-          <div class="an-val">
-            ${esc(d.location||'Not detected')}
-          </div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Language</div>
-          <div class="an-val">${esc(d.language||'—')}</div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Sentiment</div>
-          <div class="an-val">${esc(d.sentiment||'—')}</div>
-        </div>
-        <div class="an-card full">
-          <div class="an-lbl">Key facts</div>
-          <ul class="facts">
-            ${(d.key_facts||[]).map(f=>
-              `<li>${esc(f)}</li>`
-            ).join('')}
-          </ul>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Social links</div>
-          <div class="tags">
-            ${(d.social_links||[]).map(l=>
-              `<span class="tag">${esc(l)}</span>`
-            ).join('')||'None found'}
-          </div>
-        </div>
-        <div class="an-card">
-          <div class="an-lbl">Extraction method</div>
-          <div class="an-val" style="color:var(--accent3);">
-            ${esc(d.extraction_method||'—')}
-          </div>
-        </div>
-      </div>`;
-  } catch(e) {
-    pane.innerHTML = `<div class="sr-none" style="color:var(--danger);">
-      Failed to load analysis: ${e.message}</div>`;
-  }
+    pane.innerHTML =
+      "<div class=\"an-grid fadein\">" +
+      "<div class=\"an-card\"><div class=\"an-lbl\">Business name</div><div class=\"an-val hl\">" + esc(d.business_name||"—") + "</div></div>" +
+      "<div class=\"an-card\"><div class=\"an-lbl\">Type</div><div class=\"an-val\">" + esc(d.business_type||"—") + "</div></div>" +
+      "<div class=\"an-card full\"><div class=\"an-lbl\">Description</div><div class=\"an-val\" style=\"font-size:12px;line-height:1.7;\">" + esc(d.description||"—") + "</div></div>" +
+      "<div class=\"an-card\"><div class=\"an-lbl\">Main topics</div><div class=\"tags\">" + (d.main_topics||[]).map(t => "<span class=\"tag\">" + esc(t) + "</span>").join("") + "</div></div>" +
+      "<div class=\"an-card\"><div class=\"an-lbl\">Key facts</div><ul class=\"facts\">" + (d.key_facts||[]).map(f => "<li>" + esc(f) + "</li>").join("") + "</ul></div>" +
+      "<div class=\"an-card\"><div class=\"an-lbl\">Contact email</div><div class=\"an-val\">" + esc(d.contact_email||"Not found") + "</div></div>" +
+      "<div class=\"an-card\"><div class=\"an-lbl\">Language</div><div class=\"an-val\">" + esc(d.language||"—") + "</div></div>" +
+      "<div class=\"an-card\"><div class=\"an-lbl\">Method</div><div class=\"an-val\" style=\"color:var(--accent3)\">" + esc(d.extraction_method||"—") + "</div></div>" +
+      "</div>";
+  } catch(e) { pane.innerHTML = "<div class=\"sr-none\" style=\"color:var(--danger)\">Error: " + e.message + "</div>"; }
 }
 
-/* ── actions ── */
-function downloadPDF(id) {
-  window.open(`${API}/pdf/${id}/`, '_blank');
+let searchTimer = null;
+function debounceSearch(id) { clearTimeout(searchTimer); searchTimer = setTimeout(() => doSearch(id), 400); }
+
+async function doSearch(id) {
+  const kw  = (document.getElementById("kw-inp")?.value || "").trim();
+  const out = document.getElementById("search-out-" + id);
+  if (!kw) { out.innerHTML = "<div class=\"sr-none\">Enter a keyword</div>"; return; }
+  out.innerHTML = "<div class=\"loading\"><span class=\"spin\">\u21BB</span> Searching...</div>";
+  try {
+    const r = await fetch(API + "/search/" + id + "/?q=" + encodeURIComponent(kw));
+    const d = await r.json();
+    if (!d.results || !d.results.length) { out.innerHTML = "<div class=\"sr-none\">No results for \"" + esc(kw) + "\"</div>"; return; }
+    out.innerHTML = "<div class=\"search-results\"><div class=\"sr-header\">" + d.results.length + " result(s) for \"" + esc(kw) + "\"</div>" + d.results.map(r => "<div class=\"sr-item\"><div class=\"sr-title\">" + esc(r.title) + "</div><div class=\"sr-url\">" + esc(r.url) + "</div><div class=\"sr-snippet\">" + r.snippet + "</div></div>").join("") + "</div>";
+  } catch(e) { out.innerHTML = "<div class=\"sr-none\" style=\"color:var(--danger)\">Error: " + e.message + "</div>"; }
 }
+
+function showPageBrowser(id) {
+  const body = document.getElementById("main-body");
+  body.innerHTML =
+    "<div class=\"fadein\">" +
+    "<div style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;\">" +
+      "<button class=\"tab on\" onclick=\"showJob(" + id + ")\" type=\"button\">\u2190 Back</button>" +
+      "<div style=\"display:flex;gap:8px;\">" +
+        "<input id=\"pb-search\" class=\"search-inp\" placeholder=\"Filter pages...\" style=\"width:180px;padding:6px 10px;font-size:11px;\" oninput=\"filterPages(" + id + ")\" autocomplete=\"off\"/>" +
+        "<select id=\"min-words\" class=\"search-inp\" style=\"width:130px;padding:6px 10px;font-size:11px;\" onchange=\"filterPages(" + id + ")\">" +
+          "<option value=\"0\">All pages</option><option value=\"50\">50+ words</option><option value=\"100\">100+ words</option><option value=\"300\">300+ words</option><option value=\"500\">500+ words</option>" +
+        "</select>" +
+      "</div>" +
+    "</div>" +
+    "<div style=\"display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;\">" +
+      "<button class=\"btn btn-ghost btn-sm\" onclick=\"selectAllPages()\" type=\"button\">Select all</button>" +
+      "<button class=\"btn btn-ghost btn-sm\" onclick=\"clearSelection()\" type=\"button\">Clear</button>" +
+      "<span id=\"sel-count\" style=\"font-size:11px;color:var(--text2);\">0 pages selected</span>" +
+      "<div style=\"flex:1\"></div>" +
+      "<input id=\"focus-query\" class=\"search-inp\" placeholder=\"Focus query (optional)...\" style=\"width:200px;padding:6px 10px;font-size:11px;\" autocomplete=\"off\"/>" +
+      "<button class=\"btn btn-success btn-sm\" onclick=\"analyzeSelected(" + id + ")\" type=\"button\">Analyze selected</button>" +
+    "</div>" +
+    "<div id=\"page-browser-list\"><div class=\"loading\"><span class=\"spin\">\u21BB</span> Loading...</div></div>" +
+    "<div id=\"page-content-panel\" style=\"margin-top:16px;display:none;\"><div class=\"pages-box\" id=\"page-content-box\"></div></div>" +
+    "<div id=\"multipage-result\" style=\"margin-top:16px;display:none;\"></div>" +
+    "</div>";
+
+  window._selPages = new Set();
+  loadPageBrowser(id, 0, "");
+}
+
+async function loadPageBrowser(siteId, minWords, q) {
+  const list = document.getElementById("page-browser-list");
+  if (!list) return;
+  try {
+    let url = API + "/pages/" + siteId + "/?min_words=" + minWords;
+    if (q) url += "&q=" + encodeURIComponent(q);
+    const r    = await fetch(url);
+    const data = await r.json();
+    renderPageBrowser(data.pages || [], siteId);
+  } catch(e) { list.innerHTML = "<div class=\"sr-none\" style=\"color:var(--danger)\">Error: " + e.message + "</div>"; }
+}
+
+function renderPageBrowser(pages, siteId) {
+  const list = document.getElementById("page-browser-list");
+  if (!pages.length) { list.innerHTML = "<div class=\"sr-none\">No pages found</div>"; return; }
+  list.innerHTML =
+    "<div class=\"pages-box\">" +
+    pages.map(p =>
+      "<div class=\"pg-row\" id=\"prow-" + p.id + "\" style=\"cursor:pointer;\" onclick=\"togglePage(" + p.id + "," + siteId + ")\">" +
+        "<input type=\"checkbox\" id=\"chk-" + p.id + "\" onclick=\"event.stopPropagation();togglePage(" + p.id + "," + siteId + ")\" style=\"flex-shrink:0;accent-color:var(--accent);width:14px;height:14px;cursor:pointer;\" />" +
+        "<span class=\"pg-title\" title=\"" + esc(p.url) + "\">" + esc(p.title) + "</span>" +
+        "<span class=\"pg-w\">" + (p.word_count || 0).toLocaleString() + "w</span>" +
+        "<button class=\"btn btn-ghost btn-sm\" onclick=\"event.stopPropagation();readPage(" + p.id + ")\" type=\"button\">Read</button>" +
+      "</div>"
+    ).join("") +
+    "</div>";
+  updateSelCount();
+}
+
+function filterPages(siteId) {
+  const q = document.getElementById("pb-search")?.value || "";
+  const m = document.getElementById("min-words")?.value || 0;
+  loadPageBrowser(siteId, m, q);
+}
+
+function togglePage(pageId, siteId) {
+  if (!window._selPages) window._selPages = new Set();
+  const chk = document.getElementById("chk-" + pageId);
+  const row = document.getElementById("prow-" + pageId);
+  if (window._selPages.has(pageId)) {
+    window._selPages.delete(pageId);
+    if (chk) chk.checked = false;
+    if (row) row.style.background = "";
+  } else {
+    window._selPages.add(pageId);
+    if (chk) chk.checked = true;
+    if (row) row.style.background = "rgba(0,212,255,0.05)";
+  }
+  updateSelCount();
+}
+
+function selectAllPages() {
+  if (!window._selPages) window._selPages = new Set();
+  document.querySelectorAll("[id^=chk-]").forEach(chk => {
+    const id = parseInt(chk.id.replace("chk-",""));
+    window._selPages.add(id); chk.checked = true;
+    const row = document.getElementById("prow-" + id);
+    if (row) row.style.background = "rgba(0,212,255,0.05)";
+  });
+  updateSelCount();
+}
+
+function clearSelection() {
+  if (!window._selPages) return;
+  window._selPages.clear();
+  document.querySelectorAll("[id^=chk-]").forEach(chk => {
+    chk.checked = false;
+    const row = document.getElementById("prow-" + chk.id.replace("chk-",""));
+    if (row) row.style.background = "";
+  });
+  updateSelCount();
+}
+
+function updateSelCount() {
+  const n  = window._selPages ? window._selPages.size : 0;
+  const el = document.getElementById("sel-count");
+  if (el) el.textContent = n + " page" + (n !== 1 ? "s" : "") + " selected";
+}
+
+async function readPage(pageId) {
+  const panel = document.getElementById("page-content-panel");
+  const box   = document.getElementById("page-content-box");
+  if (!panel || !box) return;
+  box.innerHTML = "<div style=\"padding:16px;font-size:12px;color:var(--text3)\">Loading...</div>";
+  panel.style.display = "block";
+  panel.scrollIntoView({behavior:"smooth"});
+  try {
+    const r    = await fetch(API + "/page/" + pageId + "/");
+    const data = await r.json();
+    const headingsHtml = (data.headings||[]).length
+      ? data.headings.map(h => "<div style=\"font-size:11px;color:var(--text2);padding:2px 0;border-bottom:1px solid rgba(30,45,61,.3);\"><span style=\"color:var(--text3);font-size:9px;\">" + (h.level||"").toUpperCase() + "</span> " + esc(h.text) + "</div>").join("")
+      : "<div style=\"color:var(--text3);font-size:11px;\">No headings</div>";
+    const paragraphs = (data.content||"").split("\n").filter(l => l.trim().length > 20)
+      .map(l => "<p style=\"margin-bottom:10px;font-size:12px;line-height:1.7;color:var(--text);\"> " + esc(l) + "</p>").join("");
+    box.innerHTML =
+      "<div style=\"padding:16px;\">" +
+        "<div style=\"display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px;\">" +
+          "<div style=\"flex:1;\"><div style=\"font-size:14px;font-weight:500;color:var(--accent);margin-bottom:4px;\">" + esc(data.title||"Untitled") + "</div><div style=\"font-size:10px;color:var(--text3);word-break:break-all;\">" + esc(data.url) + "</div></div>" +
+          "<div style=\"text-align:right;flex-shrink:0;\"><div style=\"font-size:18px;font-weight:700;color:var(--accent2);\">" + (data.word_count||0).toLocaleString() + "</div><div style=\"font-size:9px;color:var(--text3);\">words</div></div>" +
+        "</div>" +
+        (data.meta_description ? "<div style=\"background:var(--bg3);border-left:2px solid var(--accent);padding:8px 12px;border-radius:0 6px 6px 0;font-size:11px;color:var(--text2);margin-bottom:12px;\">" + esc(data.meta_description) + "</div>" : "") +
+        "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;\">" +
+          "<div><div style=\"font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;\">Headings</div>" + headingsHtml + "</div>" +
+          "<div><div style=\"font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;\">Stats</div><div style=\"font-size:11px;color:var(--text2)\">Words: <b style=\"color:var(--text)\">" + (data.word_count||0).toLocaleString() + "</b></div></div>" +
+        "</div>" +
+        "<div style=\"font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;\">Content</div>" +
+        "<div style=\"max-height:400px;overflow-y:auto;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px;\">" +
+          (paragraphs || "<div style=\"color:var(--text3);font-size:12px;\">No content extracted</div>") +
+        "</div>" +
+      "</div>";
+  } catch(e) { box.innerHTML = "<div style=\"padding:16px;color:var(--danger);font-size:12px;\">Error: " + e.message + "</div>"; }
+}
+
+async function analyzeSelected(siteId) {
+  const sel = window._selPages;
+  if (!sel || sel.size === 0) { log("Select at least one page first", "w"); return; }
+  const query  = document.getElementById("focus-query")?.value || "";
+  const result = document.getElementById("multipage-result");
+  if (!result) return;
+  result.style.display = "block";
+  result.innerHTML = "<div style=\"background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px;text-align:center;font-size:12px;color:var(--text3);\"><span class=\"spin\">\u21BB</span> Analyzing " + sel.size + " pages...</div>";
+  result.scrollIntoView({behavior:"smooth"});
+  log("Analyzing " + sel.size + " selected pages...", "i");
+  try {
+    const r = await fetch(API + "/analyze-pages/", {
+      method: "POST",
+      headers: {"Content-Type":"application/json","X-CSRFToken":csrf()},
+      body: JSON.stringify({page_ids: [...sel], query})
+    });
+    const data = await r.json();
+    if (!r.ok) { result.innerHTML = "<div style=\"color:var(--danger);font-size:12px;padding:16px;\">" + (data.error||"Error") + "</div>"; return; }
+    const d = data.extracted_data || {};
+    const kwHtml = (data.keyword_hits||[]).length
+      ? "<div style=\"margin-top:16px;\"><div style=\"font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;\">Keyword hits for \"" + esc(query) + "\" (" + data.keyword_hits.length + ")</div>" +
+          data.keyword_hits.slice(0,10).map(h =>
+            "<div style=\"background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:6px;\">" +
+              "<div style=\"font-size:11px;color:var(--accent);margin-bottom:4px;\">" + esc(h.page_title) + "</div>" +
+              "<div style=\"font-size:11px;color:var(--text2);line-height:1.6;\">" + h.context.replace(/\*\*(.+?)\*\*/g, "<mark style=\"background:rgba(0,212,255,.2);color:var(--accent);border-radius:2px;padding:0 2px;\">$1</mark>") + "</div>" +
+            "</div>"
+          ).join("") + "</div>"
+      : "";
+    result.innerHTML =
+      "<div style=\"background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;\">" +
+        "<div style=\"padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;\">" +
+          "<div style=\"font-size:13px;font-weight:500;color:var(--accent2);\">Analysis — " + data.pages_analyzed + " pages (" + (data.total_words||0).toLocaleString() + " words)</div>" +
+          "<div style=\"font-size:10px;color:var(--text3);\">" + (d.extraction_method||"rule-based") + "</div>" +
+        "</div>" +
+        "<div style=\"padding:16px;\">" +
+          "<div class=\"an-grid\">" +
+            "<div class=\"an-card\"><div class=\"an-lbl\">Business</div><div class=\"an-val hl\">" + esc(d.business_name||"—") + "</div></div>" +
+            "<div class=\"an-card\"><div class=\"an-lbl\">Type</div><div class=\"an-val\">" + esc(d.business_type||"—") + "</div></div>" +
+            "<div class=\"an-card full\"><div class=\"an-lbl\">Description</div><div class=\"an-val\" style=\"font-size:12px;line-height:1.6;\">" + esc(d.description||"—") + "</div></div>" +
+            "<div class=\"an-card\"><div class=\"an-lbl\">Topics</div><div class=\"tags\">" + (d.main_topics||[]).map(t => "<span class=\"tag\">" + esc(t) + "</span>").join("") + "</div></div>" +
+            "<div class=\"an-card\"><div class=\"an-lbl\">Key facts</div><ul class=\"facts\">" + (d.key_facts||[]).map(f => "<li>" + esc(f) + "</li>").join("") + "</ul></div>" +
+          "</div>" +
+          kwHtml +
+        "</div>" +
+      "</div>";
+    log("Analysis complete — " + data.pages_analyzed + " pages", "k");
+  } catch(e) { result.innerHTML = "<div style=\"color:var(--danger);font-size:12px;padding:16px;\">Error: " + e.message + "</div>"; log("Error: " + e.message, "e"); }
+}
+
+function showExport(id) {
+  const body = document.getElementById("main-body");
+  body.innerHTML =
+    "<div class=\"fadein\">" +
+      "<div style=\"margin-bottom:20px;\"><button class=\"tab on\" onclick=\"showJob(" + id + ")\" type=\"button\">\u2190 Back</button></div>" +
+      "<div class=\"ov-grid\">" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">JSON export</div><div class=\"ov-val\" style=\"font-size:11px;color:var(--text2);margin-bottom:10px;\">Full data including all pages and AI analysis.</div><button class=\"btn btn-ghost btn-sm\" onclick=\"doExport(" + id + ",'json')\" type=\"button\">Download JSON</button></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">CSV — pages</div><div class=\"ov-val\" style=\"font-size:11px;color:var(--text2);margin-bottom:10px;\">All pages with URL, title, word count, headings.</div><button class=\"btn btn-ghost btn-sm\" onclick=\"doExport(" + id + ",'csv')\" type=\"button\">Download CSV</button></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">CSV — analysis</div><div class=\"ov-val\" style=\"font-size:11px;color:var(--text2);margin-bottom:10px;\">AI extracted key values in spreadsheet form.</div><button class=\"btn btn-ghost btn-sm\" onclick=\"doExport(" + id + ",'csv_analysis')\" type=\"button\">Download CSV</button></div>" +
+        "<div class=\"ov-card\"><div class=\"ov-lbl\">Excel workbook</div><div class=\"ov-val\" style=\"font-size:11px;color:var(--text2);margin-bottom:10px;\">4-sheet workbook: Summary, Pages, Analysis, Index.</div><button class=\"btn btn-success btn-sm\" onclick=\"doExport(" + id + ",'excel')\" type=\"button\">Download Excel</button></div>" +
+      "</div>" +
+    "</div>";
+}
+
+function doExport(id, fmt) {
+  log("Exporting job #" + id + " as " + fmt + "...", "i");
+  window.open(API + "/export/" + id + "/?format=" + fmt, "_blank");
+}
+
+function downloadPDF(id) { window.open(API + "/pdf/" + id + "/", "_blank"); }
 
 async function triggerPDF(id) {
-  await fetch(`${API}/pdf/${id}/`, {
-    method:'POST',headers:{'X-CSRFToken':csrf()}});
-  log(`#${id} PDF generation started`,'i');
-  setTimeout(()=>{ loadJobs(); showJob(id); }, 4000);
+  await fetch(API + "/pdf/" + id + "/", {method:"POST",headers:{"X-CSRFToken":csrf()}});
+  log("#" + id + " PDF started", "i");
+  setTimeout(() => { loadJobs(); if (selId === id) showJob(id); }, 4000);
 }
 
 async function triggerAnalysis(id) {
-  await fetch(`${API}/analysis/${id}/`, {
-    method:'POST',headers:{'X-CSRFToken':csrf()}});
-  log(`#${id} AI analysis started`,'i');
-  setTimeout(()=>{ loadJobs(); showJob(id); }, 5000);
+  await fetch(API + "/analysis/" + id + "/", {method:"POST",headers:{"X-CSRFToken":csrf()}});
+  log("#" + id + " AI analysis started", "i");
+  setTimeout(() => { loadJobs(); if (selId === id) showJob(id); }, 5000);
 }
 
 async function deleteJob(id) {
-  if (!confirm(`Delete job #${id}? This cannot be undone.`)) return;
-  await fetch(`${API}/status/${id}/`, {
-    method:'DELETE',headers:{'X-CSRFToken':csrf()}});
+  if (!confirm("Delete job #" + id + "? This cannot be undone.")) return;
+  await fetch(API + "/status/" + id + "/", {method:"DELETE",headers:{"X-CSRFToken":csrf()}});
   selId = null;
-  document.getElementById('main-title').textContent =
-    'Select a job to view results';
-  document.getElementById('main-acts').innerHTML = '';
-  document.getElementById('main-body').innerHTML = `
-    <div class="empty">
-      <div class="empty-ico">◈</div>
-      <div class="empty-msg">Job deleted</div>
-    </div>`;
-  log(`#${id} deleted`,'w');
+  document.getElementById("main-title").textContent = "Select a job";
+  document.getElementById("main-acts").innerHTML = "";
+  document.getElementById("main-body").innerHTML = "<div class=\"empty\"><div class=\"empty-ico\">\u25C8</div><div class=\"empty-msg\">Job deleted</div></div>";
+  log("#" + id + " deleted", "w");
   loadJobs();
 }
 
-/* ── enter key ── */
-document.getElementById('url-inp')
-  .addEventListener('keydown', e => {
-    if (e.key==='Enter') submitScrape();
-  });
+function esc(s) {
+  return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
 
-/* ── init ── */
-loadJobs();
+document.getElementById("url-inp").addEventListener("keydown", e => { if (e.key === "Enter") submitScrape(); });
+
+/* ── Theme toggle ── */
+function toggleTheme() {
+  const body  = document.body;
+  const isDark = !body.classList.contains('light');
+  body.classList.toggle('light', isDark);
+  const icon  = document.getElementById('theme-icon');
+  const label = document.getElementById('theme-label');
+  if (isDark) {
+    icon.textContent  = '☾';
+    label.textContent = 'Dark';
+    localStorage.setItem('theme', 'light');
+  } else {
+    icon.textContent  = '☀';
+    label.textContent = 'Light';
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+/* Restore saved theme */
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.body.classList.add('light');
+    const icon  = document.getElementById('theme-icon');
+    const label = document.getElementById('theme-label');
+    if (icon)  icon.textContent  = '☾';
+    if (label) label.textContent = 'Dark';
+  }
+})();
+
+/* Auto-load most recent job on page load */
+async function initDashboard() {
+  await loadJobs();
+  // Auto-select the most recent completed job
+  try {
+    const r    = await fetch(API + '/scrape/');
+    const jobs = await r.json();
+    if (jobs && jobs.length > 0) {
+      // Prefer most recent done job, fallback to any job
+      const done = jobs.find(j => j.status === 'done');
+      const best = done || jobs[0];
+      if (best) {
+        selId = best.id;
+        await loadJobs(); // re-render with active state
+        showJob(best.id);
+      }
+    }
+  } catch(e) {}
+}
+
+initDashboard();
 setInterval(loadJobs, 5000);
 </script>
 </body>

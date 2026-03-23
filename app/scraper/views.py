@@ -83,6 +83,10 @@ class StatusView(APIView):
                 "has_pdf":            bool(site.pdf_file),
                 "has_analysis":       has_analysis,
                 "created_at":         site.created_at.isoformat(),
+                "scrape_started":     site.scrape_started.isoformat() if site.scrape_started else None,
+                "scrape_finished":    site.scrape_finished.isoformat() if site.scrape_finished else None,
+                "scrape_duration":    site.scrape_duration,
+                "pages_per_second":   site.pages_per_second,
                 "sample_pages": [
                     {
                         "url":        p.page_url,

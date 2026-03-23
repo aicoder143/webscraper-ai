@@ -12,11 +12,15 @@ class ScrapedSite(models.Model):
     status      = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='pending'
     )
-    scrape_mode  = models.CharField(max_length=20, blank=True)
-    scrape_depth = models.IntegerField(default=5)
-    pdf_file     = models.FileField(upload_to='pdfs/', blank=True, null=True)
-    created_at   = models.DateTimeField(auto_now_add=True)
-    updated_at   = models.DateTimeField(auto_now=True)
+    scrape_mode      = models.CharField(max_length=20, blank=True)
+    scrape_depth     = models.IntegerField(default=5)
+    pdf_file         = models.FileField(upload_to="pdfs/", blank=True, null=True)
+    scrape_started   = models.DateTimeField(null=True, blank=True)
+    scrape_finished  = models.DateTimeField(null=True, blank=True)
+    scrape_duration  = models.FloatField(default=0)
+    pages_per_second = models.FloatField(default=0)
+    created_at       = models.DateTimeField(auto_now_add=True)
+    updated_at       = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.url

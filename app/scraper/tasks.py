@@ -40,6 +40,13 @@ def scrape_site(self, site_id: int):
         site.status = "scraping"
         site.save(update_fields=["status"])
 
+        # Record start time
+        from django.utils import timezone as tz
+        import time as _time
+        site.scrape_started = tz.now()
+        site.save(update_fields=["scrape_started"])
+        wall_start = _time.time()
+
         # Get depth configuration
         depth  = getattr(site, "scrape_depth", 5)
         cfg    = get_depth_config(depth)
@@ -103,8 +110,23 @@ def scrape_site(self, site_id: int):
             f"[{site_id}] Done — "
             f"scraped:{scraped_count} failed:{failed_count}"
         )
+
+        # Record finish time and calculate stats
+        wall_end     = _time.time()
+        duration     = round(wall_end - wall_start, 2)
+        pps          = round(scraped_count / duration, 3) if duration > 0 else 0
+        site.scrape_finished  = tz.now()
+        site.scrape_duration  = duration
+        site.pages_per_second = pps
         site.status = "done"
-        site.save(update_fields=["status"])
+        site.save(update_fields=[
+            "status", "scrape_finished",
+            "scrape_duration", "pages_per_second"
+        ])
+        logger.info(
+            f"[{site_id}] Elapsed: {duration}s "
+            f"({pps} pages/sec)"
+        )
 
         generate_pdf.apply_async(
             args=[site_id],
