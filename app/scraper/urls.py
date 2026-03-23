@@ -1,0 +1,31 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("",
+         views.DashboardView.as_view(),        name="dashboard"),
+    path("api/scrape/",
+         views.ScrapeView.as_view(),           name="scrape"),
+    path("api/status/<int:pk>/",
+         views.StatusView.as_view(),           name="status"),
+    path("api/analysis/<int:pk>/",
+         views.AnalysisView.as_view(),         name="analysis"),
+    path("api/pdf/<int:pk>/",
+         views.PDFView.as_view(),              name="pdf"),
+    path("api/search/<int:pk>/",
+         views.SearchView.as_view(),           name="search"),
+    path("api/export/<int:pk>/",
+         views.ExportView.as_view(),           name="export"),
+    path("api/schedule/",
+         views.ScheduleView.as_view(),         name="schedule"),
+    path("api/schedule/<int:pk>/",
+         views.ScheduleDetailView.as_view(),   name="schedule-detail"),
+    path("api/changes/<int:pk>/",
+         views.ChangesView.as_view(),          name="changes"),
+    path("api/pages/<int:pk>/",
+         views.PageListView.as_view(),         name="page-list"),
+    path("api/page/<int:pk>/",
+         views.PageDetailView.as_view(),       name="page-detail"),
+    path("api/analyze-pages/",
+         views.MultiPageAnalysisView.as_view(),name="analyze-pages"),
+]
